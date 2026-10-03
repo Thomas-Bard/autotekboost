@@ -143,7 +143,8 @@ async function main() {
   while (true) {
     booster = await getBooster(cook_str.cookie_val);
     if (booster.status != 200) {
-      console.error("Unable to retrieve boosters. Let's kill ourselves !");
+        console.error("Unable to retrieve boosters. Let's kill ourselves !");
+        console.error(`JSON request output : ${await booster.json()}`);
       throw new Error(`Unable to retrieve boosters status is ${booster.status}`);
     }
     booster = await booster.json();
