@@ -2,24 +2,54 @@
 
 const fs = require("fs");
 
+function makeFirefoxHeaders(cookie) {
+    return {
+        "User-Agent":
+            "Mozilla/5.0 (X11; Linux x86_64; rv:155.0) Gecko/20100101 Firefox/155.0",
+
+        "Accept":
+            "application/json, text/plain, */*",
+
+        "Accept-Language":
+            "en-US,en;q=0.5",
+
+        "Accept-Encoding":
+        "gzip, deflate, br, zstd",
+
+        "Referer":
+            "https://tekmeme.nexus-i.fr/",
+
+        "Sec-Fetch-Dest":
+            "empty",
+
+        "Sec-Fetch-Mode":
+            "cors",
+
+        "Sec-Fetch-Site":
+            "same-origin",
+
+        "Priority":
+            "u=4",
+
+        "Cookie":
+            `__Host-tekmeme_sid=${cookie}`
+    };
+}
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function getBooster(cookie) {
-    const response = await fetch("https://tekmeme.nexus-i.fr/api/boosters", {
-        method: "GET",
-        headers: {
-            "Cookie": "__Host-tekmeme_sid=" + cookie
-        }
-    });
+const response = await fetch("https://tekmeme.nexus-i.fr/api/boosters", {
+  method: "GET",
+  headers: makeFirefoxHeaders(cookie)
+  });
     return response;
 }
 
 async function open(cookie) {
     const response = await fetch("https://tekmeme.nexus-i.fr/api/boosters/open", {
         method: "POST",
-        headers: {
-            "Cookie": "__Host-tekmeme_sid=" + cookie
-        },
+        headers: makeFirefoxHeaders(cookie),
         body: JSON.stringify({})
     });
     return response;
